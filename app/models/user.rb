@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token, :activation_token
+  attr_accessor :remember_token, :activation_token, :password_reset_token
   before_save :downcase_email
   before_create :create_activation_digest
   validates :name, presence: true, length: { maximum: 50 }
@@ -39,14 +39,27 @@ class User < ApplicationRecord
     update_attribute :remember_digest, nil
   end
 
-    # Activates an account.
+  # Activates an account.
   def activate
     update_attribute :activated,    true
     update_attribute :activated_at, Time.zone.now
   end
 
+  def save_password_reset
+    update_attribute :password_reset_digest, create_password_reset_digest
+    update_attribute :reset_password_at, Time.zone.now
+  end
+
   def send_mail_user_activate_model
     Signup::Activate.new(self).send_mail_activate_service
+  end
+
+  def send_mail_user_password_reset_model
+    Password::ResetServices.new(self).call
+  end
+
+  def password_reset_expired?
+    reset_password_at < 100.seconds.ago
   end
 
   private
@@ -57,5 +70,10 @@ class User < ApplicationRecord
     def create_activation_digest
       self.activation_token = User.new_token
       self.activation_digest = User.digest activation_token
+    end
+
+    def create_password_reset_digest
+      self.password_reset_token = User.new_token
+      self.password_reset_digest = User.digest password_reset_token
     end
 end
