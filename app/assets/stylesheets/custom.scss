@@ -203,3 +203,59 @@ input {
 .link_to_password_reset{
   float: right;
 }
+.name-message{
+  .name{
+    float: left;
+    width: 10%;
+    color: #829AB1;
+  }
+
+  .message{
+    font-size: 18px;
+    width: fit-content;
+    float: left;
+    border-radius: 15px;
+    padding: 8px;
+    background: #B6E0FE;
+  }
+}
+.clearfix:after {
+    content: ".";
+    visibility: hidden;
+    display: block;
+    clear: both;
+}
+
+.message-input {
+  input[type=submit] {
+    display: none;
+  }
+
+  textarea{
+    border: none;
+    border-radius: 10px;
+  }
+}
+.active {
+  width: 8px;
+} 
+
+.inactive {
+  width: 8px;
+  display: none;
+}
+.chat-status{
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  min-height: 600px;
+  .chat{
+    border-radius: 15px;
+    background: wheat;
+    padding: 3% 3% 0 3%;
+
+    #messages{
+      height: 424px;
+      overflow: auto;
+    }
+  }
+}

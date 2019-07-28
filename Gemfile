@@ -22,6 +22,7 @@ gem "sidekiq"
 gem "redis"
 gem "redis-namespace"
 gem "dotenv-rails", groups: [:development, :test]
+gem 'ahoy_matey'
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]

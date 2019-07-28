@@ -9,7 +9,8 @@ class SessionsController < ApplicationController
       if !user.activated?
         flash[:danger] = "Your account has not activated!"
       end
-      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+      #params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+      params[:session][:remember_me] = remember(user)
       redirect_back_or user
     else
       flash.now[:danger] = 'Invalid email/password combination'

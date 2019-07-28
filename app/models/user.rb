@@ -1,7 +1,9 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token, :activation_token, :password_reset_token
+  has_many :messages
+  attr_accessor :remember_token, :activation_token, :password_reset_token, :prev_tab_num
   before_save :downcase_email
   before_create :create_activation_digest
+  after_update_commit :broadcast_appearance
   validates :name, presence: true, length: { maximum: 50 }
   
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -59,7 +61,21 @@ class User < ApplicationRecord
   end
 
   def password_reset_expired?
-    reset_password_at < 100.seconds.ago
+    reset_password_at > 100.seconds.ago
+  end
+
+  def appear
+    if tabs == 0
+      update_attributes online: true
+    end
+    update_attributes tabs: tabs + 1
+  end
+
+  def disappear
+    update_attributes tabs: tabs - 1
+    if tabs == 0
+      update_attributes online: false
+    end
   end
 
   private
@@ -76,4 +92,9 @@ class User < ApplicationRecord
       self.password_reset_token = User.new_token
       self.password_reset_digest = User.digest password_reset_token
     end
+   
+    def broadcast_appearance
+      AppearanceBroadcastJob.perform_later self if saved_change_to_attribute?("online") 
+    end
+
 end

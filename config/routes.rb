@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'rooms/show'
   get 'sessions/new'
   get 'user/new'
   root 'static_pages#home'
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
   patch '/password_reset/:id/edit', to: 'password_resets#update', as: 'update_password_reset'
   resources :users
   resources :account_activations, only: [:edit]
+  resources :rooms, only: [:show, :create]
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  mount ActionCable.server => '/cable'
 end
