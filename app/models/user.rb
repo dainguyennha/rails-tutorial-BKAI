@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   has_many :messages
+  has_many :visits, class_name: "Ahoy::Visit"
+  has_many :events, class_name: "Ahoy::Event"
   attr_accessor :remember_token, :activation_token, :password_reset_token, :prev_tab_num
   before_save :downcase_email
   before_create :create_activation_digest

@@ -1,6 +1,7 @@
 App.room = App.cable.subscriptions.create "RoomChannel",
   connected: ->
     console.log("connected")
+    ahoy.track("My second event", {language: "JavaScript"})
 
   disconnected: ->
     console.log('disconnect')

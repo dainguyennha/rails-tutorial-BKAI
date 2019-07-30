@@ -16,5 +16,5 @@
 //= require activestorage
 //= require turbolinks
 //= require cable
+//= require ahoy
 //= require_tree .
-
