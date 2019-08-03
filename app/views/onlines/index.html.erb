@@ -1,0 +1,14 @@
+<h1>Online</h1>
+<ul id="users-list">
+  <% @users.each do |member| %>
+    <li>
+      <%= member.name %>
+      <% if member.online %>
+        <%= image_tag "green_dot.png", id: "#{member.id}-status", class: "active" %>
+      <% else %>
+        <%= image_tag "green_dot.png", id: "#{member.id}-status", class: "inactive" %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+

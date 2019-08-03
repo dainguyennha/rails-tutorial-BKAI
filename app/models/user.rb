@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   has_many :messages
+  has_many :room_users
+  has_many :rooms, through: :room_users
   has_many :visits, class_name: "Ahoy::Visit"
   has_many :events, class_name: "Ahoy::Event"
   attr_accessor :remember_token, :activation_token, :password_reset_token, :prev_tab_num
@@ -8,6 +10,8 @@ class User < ApplicationRecord
   after_update_commit :broadcast_appearance
   validates :name, presence: true, length: { maximum: 50 }
   
+  scope :is_online, -> { where online: true } 
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 250 }, 
     format: { with: VALID_EMAIL_REGEX },

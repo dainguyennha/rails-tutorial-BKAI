@@ -23,6 +23,12 @@ gem "redis"
 gem "redis-namespace"
 gem "dotenv-rails", groups: [:development, :test]
 gem 'ahoy_matey'
+gem 'elasticsearch-rails'
+gem 'elasticsearch-model'
+
+group :test do
+  gem 'elasticsearch-extensions'
+end
 
 group :development, :test do
   gem "byebug", platforms: [:mri, :mingw, :x64_mingw]

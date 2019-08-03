@@ -1,9 +1,8 @@
 Rails.application.routes.draw do
-  get 'rooms/show'
+  get 'onlines/index'
   get 'sessions/new'
   get 'user/new'
   root 'static_pages#home'
-  
   get  '/help',    to: 'static_pages#help'
   get  '/about',   to: 'static_pages#about'
   get  '/contact', to: 'static_pages#contact'
@@ -18,7 +17,11 @@ Rails.application.routes.draw do
   patch '/password_reset/:id/edit', to: 'password_resets#update', as: 'update_password_reset'
   resources :users
   resources :account_activations, only: [:edit]
-  resources :rooms, only: [:show, :create]
+  resources :rooms, only: [:show, :create, :index]
+  resources :onlines
+  resources :search_users, only: [:create]
+
+  resources :messages, only: [:create, :update, :destroy]
 
   mount ActionCable.server => '/cable'
 end

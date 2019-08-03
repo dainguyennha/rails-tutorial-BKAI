@@ -24,3 +24,15 @@ User.create!(name:  "Example User",
                activated: true,
                activated_at: Time.zone.now)
 end
+
+10.times do |n|
+  Room.create name: "Room #{n+1}"
+end
+
+User.all.each_with_index do |user, user_index|
+  Room.all.each_with_index do |room, room_index|  
+    if user_index % 10 == room_index 
+      room.users << user
+    end
+  end
+end

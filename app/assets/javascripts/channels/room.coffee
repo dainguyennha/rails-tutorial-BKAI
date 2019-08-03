@@ -1,17 +1,18 @@
-App.room = App.cable.subscriptions.create "RoomChannel",
-  connected: ->
-    console.log("connected")
-    ahoy.track("My second event", {language: "JavaScript"})
+document.addEventListener 'turbolinks:load', ->
+  room_id = $('#messages').data('room_id')
+  App.room = App.cable.subscriptions.create { channel: "RoomChannel", room_id: room_id },
+    connected: ->
+      console.log("connected")
 
-  disconnected: ->
-    console.log('disconnect')
+    disconnected: ->
+      console.log('disconnect')
 
-  received: (data) ->
-    $('#messages').append(data)
-    scroll_bottom()
+    received: (data) ->
+      $('#messages').append(data)
+      scroll_bottom()
 
-  speak: (message) ->
-    @perform 'speak', message:message
+    speak: (message) ->
+      @perform 'speak', message:message
 
 $(document).on 'turbolinks:load', ->
   submit_message()
@@ -20,10 +21,10 @@ $(document).on 'turbolinks:load', ->
 submit_message = () ->
   $('#message_content').on 'keydown', (event) ->
     if event.keyCode is 13
-      $('input').click()
+      $('#new_message').submit()
       event.target.value = ""
       event.preventDefault()
 
 scroll_bottom = () ->
   if $('#messages')
-      $('#messages').scrollTop($('#messages')[0].scrollHeight)
+    $('#messages').scrollTop($('#messages')[0].scrollHeight)
